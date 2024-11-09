@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -63,8 +64,11 @@ const App = () => {
 	// Connect wallet
 	const connectWallet = async () => {
 		try {
-			if (typeof window.ethereum !== "undefined") {
-				const provider = new ethers.BrowserProvider(window.ethereum);
+			if (
+				typeof window !== "undefined" &&
+				(window as any).ethereum !== undefined
+			) {
+				const provider = new ethers.BrowserProvider((window as any).ethereum);
 				const accounts = await provider.send("eth_requestAccounts", []);
 				setAccount(accounts[0]);
 			} else {
